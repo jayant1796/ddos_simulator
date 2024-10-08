@@ -1,44 +1,54 @@
-from flask import Flask, render_template, request, redirect, url_for
-import requests
+from flask import Flask, jsonify, request, render_template
+import random
+import time
 import threading
 
 app = Flask(__name__)
 
-results = ""
+# Sample data to store attack simulation results
+attack_data = []
+attack_active = False
 
-def send_request(url, output):
-    """Send a single HTTP GET request to the target URL."""
-    try:
-        response = requests.get(url)
-        output.append(f"Request sent to {url} - Status Code: {response.status_code}")
-    except requests.exceptions.RequestException as e:
-        output.append(f"Error sending request to {url}: {e}")
+def simulate_attack(attack_type, target_url, num_requests):
+    global attack_active, attack_data
+    requests_sent = 0
+    start_time = time.time()
 
-def ddos_attack(url, num_requests):
-    """Simulate a DDoS attack by sending multiple requests to the target URL."""
-    threads = []
-    output = []
-    
-    for _ in range(num_requests):
-        thread = threading.Thread(target=send_request, args=(url, output))
-        thread.start()
-        threads.append(thread)
+    for _ in range(num_requests):  # Limit the number of requests
+        if not attack_active:
+            break
+        time.sleep(1)  # Simulate one second of the attack
+        requests_sent += random.randint(1, 10)  # Simulate random requests sent
+        current_time = time.time() - start_time
+        attack_data.append({"time": f"{int(current_time)}s", "requests": requests_sent, "target": target_url, "type": attack_type})
 
-    for thread in threads:
-        thread.join()
-    
-    return "\n".join(output)
-
-@app.route("/", methods=["GET", "POST"])
+@app.route('/')
 def index():
-    global results
-    if request.method == "POST":
-        url = request.form["url"]
-        num_requests = int(request.form["num_requests"])
-        results = ddos_attack(url, num_requests)
-        return redirect(url_for('index'))
-    
-    return render_template("index.html", results=results)
+    return render_template('index.html')
 
-if __name__ == "__main__":
+@app.route('/start_attack', methods=['POST'])
+def start_attack():
+    global attack_active
+    attack_info = request.json
+    attack_type = attack_info.get('type')
+    target_url = attack_info.get('target')
+    num_requests = attack_info.get('requests')
+
+    if not attack_active:  # Prevent starting multiple attacks
+        attack_active = True
+        threading.Thread(target=simulate_attack, args=(attack_type, target_url, num_requests)).start()
+        return jsonify({"message": f"{attack_type} attack started on {target_url} with {num_requests} requests!"}), 200
+    return jsonify({"message": "An attack is already in progress!"}), 400
+
+@app.route('/stop_attack', methods=['POST'])
+def stop_attack():
+    global attack_active
+    attack_active = False
+    return jsonify({"message": "Attack stopped!"}), 200
+
+@app.route('/attack_data', methods=['GET'])
+def get_attack_data():
+    return jsonify(attack_data), 200
+
+if __name__ == '__main__':
     app.run(debug=True)
