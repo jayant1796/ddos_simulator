@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDoS Simulation Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>DDoS Simulation Tool</h1>
+        <form action="/" method="POST">
+            <label for="url">Target URL:</label>
+            <input type="text" id="url" name="url" required>
+            
+            <label for="num_requests">Number of Requests:</label>
+            <input type="number" id="num_requests" name="num_requests" required min="1">
+            
+            <button type="submit">Start Simulation</button>
+        </form>
+        <h2>Results:</h2>
+        <pre id="results">{{ results }}</pre>
+    </div>
+</body>
+</html>
