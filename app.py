@@ -5,7 +5,7 @@ import threading
 
 app = Flask(__name__)
 
-# Sample data to store attack simulation results
+
 attack_data = []
 attack_active = False
 
@@ -14,11 +14,11 @@ def simulate_attack(attack_type, target_url, num_requests):
     requests_sent = 0
     start_time = time.time()
 
-    for _ in range(num_requests):  # Limit the number of requests
+    for _ in range(num_requests):
         if not attack_active:
             break
-        time.sleep(1)  # Simulate one second of the attack
-        requests_sent += random.randint(1, 10)  # Simulate random requests sent
+        time.sleep(1)  
+        requests_sent += random.randint(1, 10) 
         current_time = time.time() - start_time
         attack_data.append({"time": f"{int(current_time)}s", "requests": requests_sent, "target": target_url, "type": attack_type})
 
@@ -34,7 +34,7 @@ def start_attack():
     target_url = attack_info.get('target')
     num_requests = attack_info.get('requests')
 
-    if not attack_active:  # Prevent starting multiple attacks
+    if not attack_active: 
         attack_active = True
         threading.Thread(target=simulate_attack, args=(attack_type, target_url, num_requests)).start()
         return jsonify({"message": f"{attack_type} attack started on {target_url} with {num_requests} requests!"}), 200
