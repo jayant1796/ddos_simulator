@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS  # Import CORS
 import random
 import time
 import threading
 import os  # Import os to access environment variables
 
 app = Flask(__name__)
+CORS(app)  # Initialize CORS
 
 attack_data = []
 attack_active = False
