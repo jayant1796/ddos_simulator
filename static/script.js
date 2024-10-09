@@ -1,7 +1,6 @@
-// Global variable to track the total requests sent
+
 let totalRequestsSent = 0;
 
-// Function to start an attack simulation
 async function startAttack(attackType) {
     const targetUrl = document.getElementById('targetUrl').value;
     const numRequests = document.getElementById('numRequests').value;
@@ -21,7 +20,6 @@ async function startAttack(attackType) {
         <div class="loader"></div>
     `;
 
-    // Make a POST request to start the attack
     const response = await fetch('/start_attack', {
         method: 'POST',
         headers: {
@@ -32,16 +30,16 @@ async function startAttack(attackType) {
 
     if (response.ok) {
         attackData = [];
-        totalRequestsSent = 0; // Reset total requests sent
+        totalRequestsSent = 0; 
 
-        const endTime = Date.now() + 5000; // Attack lasts 5 seconds
+        const endTime = Date.now() + 5000;
 
         const interval = setInterval(async () => {
             const dataResponse = await fetch('/attack_data');
             if (dataResponse.ok) {
                 const data = await dataResponse.json();
                 updateChart(data);
-                totalRequestsSent += data[data.length - 1].requests; // Add latest requests to total sent
+                totalRequestsSent += data[data.length - 1].requests; 
             }
             if (Date.now() > endTime) {
                 clearInterval(interval);
@@ -49,7 +47,7 @@ async function startAttack(attackType) {
                     <h3>Status: Attack ended.</h3>
                     <p>Total requests sent during attack: ${totalRequestsSent}</p>
                 `;
-                attack_active = false; // Mark attack as inactive
+                attack_active = false; 
             }
         }, 1000);
     } else {
@@ -58,15 +56,14 @@ async function startAttack(attackType) {
     }
 }
 
-// Function to update the attack chart
+
 function updateChart(data) {
     const ctx = document.getElementById('attackChart').getContext('2d');
-    ctx.clearRect(0, 0, 400, 200); // Clear previous chart
+    ctx.clearRect(0, 0, 400, 200);
 
     const labels = data.map(d => d.time);
     const requestCounts = data.map(d => d.requests);
 
-    // Create an attractive line chart with updated design
     new Chart(ctx, {
         type: 'line',
         data: {
