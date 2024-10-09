@@ -50,4 +50,4 @@ def get_attack_data():
     return jsonify(attack_data), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)  # Set the desired port here
+    app.run(port=5000, debug=True)  # Set the desired port here
