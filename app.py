@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template
 import random
 import time
 import threading
+import os  # Import os to access environment variables
 
 app = Flask(__name__)
 
@@ -50,4 +51,5 @@ def get_attack_data():
     return jsonify(attack_data), 200
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)  # Set the desired port here
+    port = int(os.environ.get('PORT', 5000))  # Set port from environment variable
+    app.run(host='0.0.0.0', port=port, debug=True)  # Run on 0.0.0.0
