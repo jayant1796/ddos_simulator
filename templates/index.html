@@ -49,7 +49,7 @@
             </div>
         </div>
         
-        <!-- Website Stability Metrics -->
+   
         <div class="row mt-5">
             <div class="col-md-12">
                 <div class="card">
@@ -107,7 +107,6 @@
             }
         });
 
-        // Starting the attack using Flask endpoint
         attackForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const attackType = document.getElementById('attackType').value;
@@ -135,7 +134,7 @@
             }
         });
 
-        // Stopping the attack using Flask endpoint
+    
         stopAttackBtn.addEventListener('click', async () => {
             const response = await fetch('/stop_attack', {
                 method: 'POST',
@@ -150,7 +149,7 @@
             }
         });
 
-        // Update chart data from Flask
+   
         async function updateChart() {
             const response = await fetch('/attack_data');
             const data = await response.json();
@@ -160,16 +159,15 @@
             chart.update();
 
             if (startAttackBtn.disabled) {
-                setTimeout(updateChart, 1000);  // Keep updating every second while the attack is active
+                setTimeout(updateChart, 1000);  
             }
         }
 
-        // Fetch website stability metrics from Flask
         async function fetchStabilityMetrics() {
             const response = await fetch('/stability_metrics');
             const metrics = await response.json();
 
-            // Update stability metrics on the UI
+ 
             responseTimeEl.textContent = metrics.responseTime;
             successRateEl.textContent = metrics.successRate;
             errorRateEl.textContent = metrics.errorRate;
