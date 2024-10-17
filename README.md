@@ -23,30 +23,6 @@ You can access the live demo of the DDoS Simulator at the following link: [DDoS 
 - **Backend:** Python, Flask
 - **Other Libraries:** Requests, BeautifulSoup (if applicable)
 
-## Installation
-
-To run the DDoS Simulator locally, follow these steps:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/jayant1796/ddos_simulator.git
-   cd ddos_simulator
-
-2. Install the required packages:
-    ```bash
-    pip install -r requirements.txt
-
-3. Start the Flask server:
-    ```bash
-    python app.py
-4. Open your browser and navigate to http://127.0.0.1:5000.
-
-<h3>Usage</h3>
-
-  1. Enter the target URL in the input field.
-  2. Select the type of DDoS attack you want to simulate.
-  3. Click on the "Start Attack" button to initiate the simulation.
-  4. Monitor the effects on the target system (this is a simulation and won't affect real systems).
 
 
 
