@@ -1,6 +1,6 @@
 # DDoS Simulator
 
-![DDoS Simulator]
+[DDoS Simulator]
 
 ## Overview
 
@@ -21,7 +21,7 @@ You can access the live demo of the DDoS Simulator at the following link: [DDoS 
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Python, Flask
-- **Other Libraries:** Requests, BeautifulSoup (if applicable)
+- **Other Libraries:** Requests, BeautifulSoup 
 
 
 
