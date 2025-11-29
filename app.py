@@ -17,10 +17,9 @@ attack_metrics = {
     "response_times": []
 }
 
-# Function to simulate the attack and track metrics
 def simulate_attack(attack_type, target_url, num_requests):
     global attack_active, attack_data, attack_metrics
-    attack_data = []  # Clear previous attack data
+    attack_data = []  
     attack_metrics = {
         "total_requests": 0,
         "successful_requests": 0,
@@ -36,28 +35,28 @@ def simulate_attack(attack_type, target_url, num_requests):
             attack_active = False
             break
 
-        time.sleep(1)  # Simulate delay between requests
-        requests_sent += random.randint(1, 10)  # Simulate number of requests sent in the current second
-        attack_metrics['total_requests'] += 1  # Update total requests
+        time.sleep(1) 
+        requests_sent += random.randint(1, 10)  
+        attack_metrics['total_requests'] += 1  
 
         current_time = time.time() - start_time
         attack_data.append({"time": f"{int(current_time)}s", "requests": requests_sent, "target": target_url, "type": attack_type})
 
-        # Simulate response times and update metrics
-        response_time = random.uniform(0.1, 2.0)  # Simulate a random response time
+        
+        response_time = random.uniform(0.1, 2.0)  
         attack_metrics['response_times'].append(response_time)
 
-        # Simulate success/failure of request
+        
         if response_time < 1.5:
             attack_metrics['successful_requests'] += 1
         else:
             attack_metrics['failed_requests'] += 1
 
-    # After the attack ends, evaluate if the site is vulnerable
+   
     evaluate_vulnerability()
 
 def evaluate_vulnerability():
-    # Use the attack metrics to determine if the site might be vulnerable
+  
     total_requests = attack_metrics.get('total_requests', 0)
     failed_requests = attack_metrics.get('failed_requests', 0)
     response_times = attack_metrics.get('response_times', [])
@@ -108,14 +107,13 @@ def stability_metrics():
     failed_requests = attack_metrics.get('failed_requests', 0)
     response_times = attack_metrics.get('response_times', [])
     
-    # Calculate the average response time
+
     avg_response_time = sum(response_times) / len(response_times) if response_times else 0
     
-    # Calculate success and error rates
+
     success_rate = (successful_requests / total_requests) * 100 if total_requests > 0 else 0
     error_rate = (failed_requests / total_requests) * 100 if total_requests > 0 else 0
 
-    # Provide a summary of the attack
     vulnerability_status = evaluate_vulnerability()
 
     return jsonify({
@@ -128,3 +126,4 @@ def stability_metrics():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
+
